@@ -73,6 +73,12 @@ if ("IntersectionObserver" in window) {
   revealElements.forEach((element) => element.classList.add("is-visible"));
 }
 
+window.requestAnimationFrame(() => {
+  document.querySelectorAll(".hero .reveal").forEach((element) => {
+    element.classList.add("is-visible");
+  });
+});
+
 document.querySelectorAll("[data-current-year]").forEach((element) => {
   element.textContent = String(new Date().getFullYear());
 });
@@ -89,6 +95,132 @@ document.querySelectorAll(".faq-list details").forEach((details) => {
 const canvas = document.querySelector(".flow-canvas");
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const productStage = document.querySelector(".product-stage");
+const storySection = document.querySelector(".story-section");
+const storyScenes = [...document.querySelectorAll("[data-story-scene]")];
+const storyMarkers = [...document.querySelectorAll("[data-story-marker]")];
+const storyProgressFill = document.querySelector(".story-progress-track i");
+const privacyDeviceWrap = document.querySelector(".privacy-device-wrap");
+
+const activateStoryScene = (scene) => {
+  if (!(scene instanceof HTMLElement)) return;
+  const activeIndex = scene.dataset.storyScene;
+  storyScenes.forEach((item) => {
+    item.classList.toggle("is-active", item === scene);
+  });
+  storyMarkers.forEach((marker) => {
+    const isActive = marker.dataset.storyMarker === activeIndex;
+    marker.classList.toggle("is-active", isActive);
+    if (isActive) marker.setAttribute("aria-current", "step");
+    else marker.removeAttribute("aria-current");
+  });
+};
+
+if (storyScenes.length && "IntersectionObserver" in window) {
+  const storyObserver = new IntersectionObserver(
+    (entries) => {
+      const visibleScenes = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((left, right) => right.intersectionRatio - left.intersectionRatio);
+      if (visibleScenes[0]) activateStoryScene(visibleScenes[0].target);
+    },
+    {
+      rootMargin: "-27% 0px -39% 0px",
+      threshold: [0.08, 0.2, 0.4, 0.64],
+    },
+  );
+  storyScenes.forEach((scene) => storyObserver.observe(scene));
+}
+
+storyMarkers.forEach((marker) => {
+  marker.addEventListener("click", () => {
+    const scene = storyScenes.find(
+      (item) => item.dataset.storyScene === marker.dataset.storyMarker,
+    );
+    activateStoryScene(scene);
+  });
+});
+
+let scrollAnimationFrame = 0;
+
+const clamp = (value, minimum, maximum) =>
+  Math.min(maximum, Math.max(minimum, value));
+
+const updateScrollMotion = () => {
+  scrollAnimationFrame = 0;
+
+  if (reduceMotion) {
+    storyScenes.forEach((scene) => scene.style.removeProperty("--scene-parallax"));
+    productStage?.style.removeProperty("--stage-scroll-shift");
+    productStage?.style.removeProperty("--stage-scroll-scale");
+    privacyDeviceWrap?.style.removeProperty("--privacy-scroll-shift");
+    if (storyProgressFill instanceof HTMLElement) {
+      storyProgressFill.style.setProperty("--story-progress", "1");
+    }
+    return;
+  }
+
+  if (productStage instanceof HTMLElement) {
+    const hero = productStage.closest(".hero");
+    const heroRect = hero?.getBoundingClientRect();
+    if (heroRect) {
+      const heroProgress = clamp(-heroRect.top / Math.max(heroRect.height, 1), 0, 1);
+      productStage.style.setProperty(
+        "--stage-scroll-shift",
+        `${(heroProgress * -44).toFixed(2)}px`,
+      );
+      productStage.style.setProperty(
+        "--stage-scroll-scale",
+        `${(1 - heroProgress * 0.035).toFixed(4)}`,
+      );
+    }
+  }
+
+  storyScenes.forEach((scene) => {
+    const rect = scene.getBoundingClientRect();
+    if (rect.bottom < -120 || rect.top > window.innerHeight + 120) return;
+    const centerOffset =
+      (rect.top + rect.height / 2 - window.innerHeight / 2) /
+      Math.max(window.innerHeight, 1);
+    scene.style.setProperty(
+      "--scene-parallax",
+      `${(clamp(centerOffset, -1, 1) * -18).toFixed(2)}px`,
+    );
+  });
+
+  if (storySection instanceof HTMLElement) {
+    const rect = storySection.getBoundingClientRect();
+    const distance = Math.max(rect.height - window.innerHeight, 1);
+    const progress = clamp(-rect.top / distance, 0, 1);
+    if (storyProgressFill instanceof HTMLElement) {
+      storyProgressFill.style.setProperty("--story-progress", progress.toFixed(4));
+    }
+  }
+
+  if (privacyDeviceWrap instanceof HTMLElement) {
+    const rect = privacyDeviceWrap.getBoundingClientRect();
+    if (rect.bottom >= 0 && rect.top <= window.innerHeight) {
+      const progress = clamp(
+        (window.innerHeight - rect.top) / (window.innerHeight + rect.height),
+        0,
+        1,
+      );
+      privacyDeviceWrap.style.setProperty(
+        "--privacy-scroll-shift",
+        `${((progress - 0.5) * -42).toFixed(2)}px`,
+      );
+    }
+  }
+};
+
+const requestScrollMotion = () => {
+  if (scrollAnimationFrame) return;
+  scrollAnimationFrame = window.requestAnimationFrame(updateScrollMotion);
+};
+
+window.addEventListener("scroll", requestScrollMotion, { passive: true });
+window.addEventListener("resize", requestScrollMotion, { passive: true });
+window.addEventListener("load", requestScrollMotion, { once: true });
+requestScrollMotion();
 
 if (
   productStage instanceof HTMLElement &&

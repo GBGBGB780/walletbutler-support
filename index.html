@@ -130,6 +130,10 @@
           </div>
           <p class="stage-caption">真实 iOS 界面与产品视觉预览</p>
         </div>
+
+        <a class="scroll-cue" href="#experience" aria-label="向下探索 Wallet Butler">
+          <span>向下探索</span><i aria-hidden="true"></i>
+        </a>
       </section>
 
       <section class="principle-rail section-shell reveal" aria-label="Wallet Butler 的产品原则">
@@ -165,8 +169,17 @@
             <p>每一层都解决一个真实问题，不把“自动”包装成无法兑现的魔法。</p>
           </div>
 
-          <div class="experience-stack">
-            <article class="experience-scene capture-scene reveal">
+          <div class="story-layout">
+            <nav class="story-progress" aria-label="能力章节">
+              <div class="story-progress-track" aria-hidden="true"><i></i></div>
+              <a class="is-active" href="#scene-capture" data-story-marker="0"><span>01</span><b>通知</b></a>
+              <a href="#scene-screenshot" data-story-marker="1"><span>02</span><b>截图</b></a>
+              <a href="#scene-trip" data-story-marker="2"><span>03</span><b>出差</b></a>
+              <a href="#scene-trace" data-story-marker="3"><span>04</span><b>追溯</b></a>
+            </nav>
+
+            <div class="experience-stack">
+            <article id="scene-capture" class="experience-scene capture-scene reveal is-active" data-story-scene="0">
               <div class="scene-copy">
                 <span class="scene-label"><i aria-hidden="true">⌁</i> 通知自动记录</span>
                 <h3>支付之后，<br />记录自己出现。</h3>
@@ -187,7 +200,7 @@
               </div>
             </article>
 
-            <article class="experience-scene screenshot-scene reveal">
+            <article id="scene-screenshot" class="experience-scene screenshot-scene reveal" data-story-scene="1">
               <div class="scene-copy">
                 <span class="scene-label"><i aria-hidden="true">◎</i> 截图随手补录</span>
                 <h3>通知没有出现，<br />截一下就好。</h3>
@@ -208,7 +221,7 @@
               </div>
             </article>
 
-            <article class="experience-scene trip-scene reveal">
+            <article id="scene-trip" class="experience-scene trip-scene reveal" data-story-scene="2">
               <div class="scene-copy">
                 <span class="scene-label"><i aria-hidden="true">↗</i> 出差归集</span>
                 <h3>个人消费与垫付，<br />自然分开。</h3>
@@ -225,7 +238,7 @@
               </div>
             </article>
 
-            <article class="experience-scene trace-scene reveal">
+            <article id="scene-trace" class="experience-scene trace-scene reveal" data-story-scene="3">
               <div class="scene-copy">
                 <span class="scene-label"><i aria-hidden="true">◇</i> 可追溯记录</span>
                 <h3>自动，<br />但不含糊。</h3>
@@ -237,6 +250,7 @@
                 <div><i>账本</i><span>本地记录</span><b>可复核</b></div>
               </div>
             </article>
+            </div>
           </div>
         </div>
       </section>

@@ -847,6 +847,12 @@ summary:focus-visible {
   --stage-tilt-x: 0deg;
   --stage-tilt-y: 0deg;
   --stage-tilt-y-reverse: 0deg;
+  --stage-scroll-shift: 0px;
+  --stage-scroll-scale: 1;
+  translate: 0 var(--stage-scroll-shift);
+  scale: var(--stage-scroll-scale);
+  transform-origin: 50% 35%;
+  will-change: translate, scale;
 }
 
 .device-dashboard {
@@ -903,6 +909,40 @@ summary:focus-visible {
   box-shadow: 0 28px 90px rgba(0, 0, 0, 0.24);
   backdrop-filter: blur(26px) saturate(130%);
   -webkit-backdrop-filter: blur(26px) saturate(130%);
+}
+
+.scroll-cue {
+  position: absolute;
+  bottom: 72px;
+  left: 50%;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 11px;
+  color: var(--ink-faint);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-decoration: none;
+  transform: translateX(-50%);
+}
+
+.scroll-cue i {
+  position: relative;
+  width: 1px;
+  height: 48px;
+  overflow: hidden;
+  background: rgba(170, 211, 191, 0.14);
+}
+
+.scroll-cue i::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background: linear-gradient(180deg, transparent, var(--green), transparent);
+  translate: 0 -100%;
+  animation: scroll-cue-flow 2.2s ease-in-out infinite;
 }
 
 .principle-rail > div {
@@ -970,13 +1010,111 @@ summary:focus-visible {
   border-top-color: rgba(220, 240, 230, 0.08);
 }
 
+.story-layout {
+  position: relative;
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr);
+  gap: 34px;
+  align-items: start;
+  margin-top: 68px;
+}
+
+.story-progress {
+  position: sticky;
+  top: 132px;
+  z-index: 8;
+  min-height: 390px;
+  padding: 22px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.story-progress-track {
+  position: absolute;
+  top: 42px;
+  bottom: 42px;
+  left: 9px;
+  width: 1px;
+  overflow: hidden;
+  background: rgba(187, 223, 205, 0.12);
+}
+
+.story-progress-track i {
+  --story-progress: 0;
+  position: absolute;
+  inset: 0;
+  display: block;
+  background: linear-gradient(180deg, var(--green-bright), rgba(67, 224, 164, 0.18));
+  box-shadow: 0 0 15px rgba(67, 224, 164, 0.34);
+  transform: scaleY(var(--story-progress));
+  transform-origin: top;
+  will-change: transform;
+}
+
+.story-progress a {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 20px 1fr;
+  align-items: center;
+  gap: 9px;
+  color: #50665b;
+  text-decoration: none;
+  transition: color 360ms ease, transform 460ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.story-progress a::before {
+  position: absolute;
+  left: 5px;
+  width: 9px;
+  height: 9px;
+  content: "";
+  background: #1a2a22;
+  border: 1px solid rgba(187, 223, 205, 0.18);
+  border-radius: 50%;
+  box-shadow: 0 0 0 5px #06100d;
+  transition:
+    background 360ms ease,
+    border-color 360ms ease,
+    box-shadow 360ms ease,
+    scale 460ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.story-progress span {
+  opacity: 0;
+  font-family: var(--font-mono);
+  font-size: 8px;
+}
+
+.story-progress b {
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+}
+
+.story-progress a.is-active {
+  color: var(--ink);
+  transform: translateX(4px);
+}
+
+.story-progress a.is-active::before {
+  background: var(--green-bright);
+  border-color: var(--green-bright);
+  box-shadow:
+    0 0 0 6px rgba(67, 224, 164, 0.08),
+    0 0 24px rgba(67, 224, 164, 0.48);
+  scale: 1.12;
+}
+
 .experience-stack {
   display: flex;
   flex-direction: column;
-  gap: 34px;
+  gap: 54px;
 }
 
 .experience-scene {
+  --scene-parallax: 0px;
   position: relative;
   display: grid;
   grid-template-columns: minmax(0, 0.88fr) minmax(440px, 1.12fr);
@@ -994,10 +1132,15 @@ summary:focus-visible {
   box-shadow:
     0 40px 100px rgba(0, 0, 0, 0.18),
     inset 0 1px 0 rgba(255, 255, 255, 0.025);
+  opacity: 0.56;
+  transform: translate3d(0, var(--scene-parallax), 0) scale(0.972);
+  transform-origin: center;
+  will-change: transform, opacity;
   transition:
+    opacity 650ms ease,
     border-color 450ms ease,
     box-shadow 450ms ease,
-    translate 450ms cubic-bezier(0.2, 0.75, 0.2, 1);
+    filter 650ms ease;
 }
 
 .experience-scene::before {
@@ -1013,12 +1156,49 @@ summary:focus-visible {
   pointer-events: none;
 }
 
+.experience-scene.is-active,
 .experience-scene:hover {
+  opacity: 1;
   border-color: rgba(125, 239, 195, 0.18);
   box-shadow:
     0 50px 130px rgba(0, 0, 0, 0.28),
     inset 0 1px 0 rgba(255, 255, 255, 0.04);
-  translate: 0 -4px;
+  filter: saturate(1.06);
+}
+
+.experience-scene.is-active {
+  transform: translate3d(0, var(--scene-parallax), 0) scale(1);
+}
+
+.js .experience-scene .scene-copy > *,
+.js .experience-scene .scene-visual {
+  opacity: 0.38;
+  translate: 0 24px;
+  transition:
+    opacity 620ms ease,
+    translate 780ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.js .experience-scene .scene-copy > :nth-child(2) {
+  transition-delay: 55ms;
+}
+
+.js .experience-scene .scene-copy > :nth-child(3) {
+  transition-delay: 110ms;
+}
+
+.js .experience-scene .scene-copy > :nth-child(4) {
+  transition-delay: 165ms;
+}
+
+.js .experience-scene.is-active .scene-copy > *,
+.js .experience-scene.is-active .scene-visual {
+  opacity: 1;
+  translate: 0 0;
+}
+
+.js .experience-scene.is-active .scene-visual {
+  transition-delay: 120ms;
 }
 
 .experience-scene:nth-child(even) {
@@ -1348,6 +1528,12 @@ summary:focus-visible {
   border-top: 0;
 }
 
+.privacy-device-wrap {
+  --privacy-scroll-shift: 0px;
+  translate: 0 var(--privacy-scroll-shift);
+  will-change: translate;
+}
+
 .privacy-stage::after {
   position: absolute;
   right: 0;
@@ -1413,6 +1599,12 @@ summary:focus-visible {
 @keyframes dashboard-drift {
   0%, 100% { translate: 0 0; }
   50% { translate: -4px -15px; }
+}
+
+@keyframes scroll-cue-flow {
+  0%, 12% { translate: 0 -100%; opacity: 0; }
+  30%, 72% { opacity: 1; }
+  100% { translate: 0 100%; opacity: 0; }
 }
 
 @keyframes real-device-drift {
@@ -1504,6 +1696,11 @@ summary:focus-visible {
     border-bottom: 0;
   }
 
+  .story-layout {
+    grid-template-columns: 68px minmax(0, 1fr);
+    gap: 18px;
+  }
+
   .experience-scene,
   .experience-scene:nth-child(even) {
     grid-template-columns: 1fr;
@@ -1545,6 +1742,66 @@ summary:focus-visible {
     padding-block: 115px 140px;
   }
 
+  .scroll-cue {
+    bottom: 48px;
+  }
+
+  .story-layout {
+    display: block;
+    margin-top: 34px;
+  }
+
+  .story-progress {
+    position: sticky;
+    top: 78px;
+    z-index: 20;
+    min-height: 58px;
+    padding: 0 18px;
+    margin: 0 -4px 28px;
+    flex-direction: row;
+    align-items: center;
+    border: 1px solid rgba(220, 240, 230, 0.1);
+    border-radius: 19px;
+    background: rgba(5, 14, 11, 0.82);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22);
+    backdrop-filter: blur(20px) saturate(130%);
+    -webkit-backdrop-filter: blur(20px) saturate(130%);
+  }
+
+  .story-progress-track {
+    top: 28px;
+    right: 31px;
+    bottom: auto;
+    left: 31px;
+    width: auto;
+    height: 1px;
+  }
+
+  .story-progress-track i {
+    transform: scaleX(var(--story-progress));
+    transform-origin: left;
+  }
+
+  .story-progress a {
+    width: 28px;
+    height: 42px;
+    display: block;
+  }
+
+  .story-progress a::before {
+    top: 17px;
+    left: 9px;
+  }
+
+  .story-progress a.is-active {
+    transform: translateY(-2px);
+  }
+
+  .story-progress span,
+  .story-progress b {
+    display: none;
+  }
+
   .experience-stack {
     gap: 20px;
   }
@@ -1558,7 +1815,7 @@ summary:focus-visible {
   }
 
   .experience-scene:hover {
-    translate: 0 0;
+    filter: none;
   }
 
   .scene-copy h3 {
@@ -1638,7 +1895,23 @@ summary:focus-visible {
   .trip-scene .trip-visual,
   .trip-route span,
   .trace-scene .trace-flow i,
-  .trace-scene .trace-flow em::after {
+  .trace-scene .trace-flow em::after,
+  .scroll-cue i::after {
     animation: none !important;
+  }
+
+  .product-stage,
+  .privacy-device-wrap,
+  .experience-scene {
+    translate: none !important;
+    scale: 1 !important;
+    transform: none;
+  }
+
+  .experience-scene,
+  .js .experience-scene .scene-copy > *,
+  .js .experience-scene .scene-visual {
+    opacity: 1;
+    translate: none;
   }
 }
