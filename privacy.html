@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Wallet Butler（钱包管家）隐私政策：本地优先、最少收集、无广告和跟踪。"
+    />
+    <meta name="theme-color" content="#07110f" />
+    <title>隐私政策 — Wallet Butler</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="site.js" defer></script>
+  </head>
+  <body class="subpage">
+    <a class="skip-link" href="#main">跳到主要内容</a>
+    <header class="site-header">
+      <div class="nav-shell">
+        <a class="brand" href="index.html" aria-label="Wallet Butler 首页">
+          <img class="brand-icon" src="app-icon.webp" alt="" width="38" height="38" />
+          <span>Wallet Butler</span>
+        </a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">
+          <span class="sr-only">打开导航</span><span></span><span></span>
+        </button>
+        <nav id="primary-nav" class="primary-nav" aria-label="主要导航">
+          <a href="index.html#features">能力</a>
+          <a href="index.html#privacy">隐私</a>
+          <a href="support.html">支持</a>
+          <a class="nav-cta" href="index.html#coming-soon">即将推出</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="legal-hero">
+        <div class="section-shell">
+          <p class="eyebrow">PRIVACY POLICY</p>
+          <h1>隐私不是选项，<br />是默认设置。</h1>
+          <p>本政策说明 Wallet Butler 如何在设备内处理数据，以及你对这些数据拥有的控制权。</p>
+        </div>
+      </section>
+
+      <div class="section-shell legal-layout">
+        <aside class="legal-nav" aria-label="本页目录">
+          <b>本页目录</b>
+          <a href="#summary">简明摘要</a>
+          <a href="#data">处理的数据</a>
+          <a href="#permissions">系统权限</a>
+          <a href="#storage">保存与导出</a>
+          <a href="#deletion">删除数据</a>
+          <a href="#website">官网隐私</a>
+          <a href="#changes">政策变更</a>
+          <a href="#contact">联系我们</a>
+        </aside>
+
+        <article class="legal-content">
+          <section id="summary">
+            <p>生效日期：2026 年 11 月 1 日</p>
+            <h2>1. 简明摘要</h2>
+            <div class="policy-callout">
+              <p>
+                当前版本没有开发者服务器、账号系统、广告、分析 SDK、崩溃上报 SDK
+                或云同步。你的通知正文、交易、截图和票据内容不会发送给 Wallet Butler 的开发者。
+              </p>
+            </div>
+            <p>
+              Wallet Butler
+              是一款本地优先的记账应用。数据处理主要发生在你的 iPhone 上。只有当你主动导出、分享或备份文件时，相应内容才会离开 App
+              沙箱，并由你选择的目标服务继续处理。
+            </p>
+          </section>
+
+          <section id="data">
+            <h2>2. Wallet Butler 处理哪些数据</h2>
+            <p>当你使用对应功能时，App 可能在设备内处理并保存以下内容：</p>
+            <table class="data-table">
+              <thead><tr><th>数据类别</th><th>用途</th><th>处理位置</th></tr></thead>
+              <tbody>
+                <tr><td>支付通知内容与时间</td><td>提取金额、商户、交易类型和来源</td><td>设备本地</td></tr>
+                <tr><td>交易与修改历史</td><td>形成账本、统计、去重和可追溯记录</td><td>设备本地</td></tr>
+                <tr><td>支付截图及 OCR 文字</td><td>补录没有通知覆盖的支付</td><td>图片在内存中识别后丢弃；识别文字保存在设备本地</td></tr>
+                <tr><td>账单文件与字段快照</td><td>查漏、去重和对账</td><td>设备本地</td></tr>
+                <tr><td>票据图片、PDF 与 OCR 结果</td><td>关联交易和整理报销材料</td><td>设备本地</td></tr>
+                <tr><td>可选地点快照</td><td>作为交易地点候选</td><td>设备本地，仅在你主动使用时</td></tr>
+                <tr><td>出差、报销与账户资料</td><td>归集差旅消费和到账记录</td><td>设备本地</td></tr>
+                <tr><td>偏好与脱敏诊断</td><td>保存设置、恢复失败操作</td><td>设备本地；诊断不含交易正文</td></tr>
+              </tbody>
+            </table>
+            <p>
+              App 不读取支付应用的内部数据库，不扫描其他 App 页面，不查询历史系统通知，也不会把通知中不存在的字段补造成完整订单。
+            </p>
+          </section>
+
+          <section id="permissions">
+            <h2>3. 系统权限与访问</h2>
+            <h3>通知</h3>
+            <p>用于显示本地捕获结果或每日汇总。拒绝后账本仍可使用，只是不显示这些提醒。</p>
+            <h3>位置</h3>
+            <p>仅在你主动请求时获取一次最近位置，作为交易地点候选。拒绝不影响记账。</p>
+            <h3>照片与文件</h3>
+            <p>仅在你选择支付截图、票据、账单或备份文件时访问所选内容。Wallet Butler 不会扫描整个照片库或文件空间。</p>
+            <h3>快捷指令自动化</h3>
+            <p>
+              支付通知访问由系统“快捷指令”管理。Wallet Butler 无法自行授予权限、创建个人自动化，或绕过你的系统选择。
+            </p>
+          </section>
+
+          <section id="storage">
+            <h2>4. 保存、备份与分享</h2>
+            <p>
+              主账本、原始事件、票据附件和相关设置保存在 App 容器中。完整备份可能包含交易、通知或 OCR
+              文字、修改历史以及票据原始文件，因此属于敏感文件。
+            </p>
+            <p>
+              当你主动把备份、CSV 或 PDF 分享到“文件”、邮件或其他 App
+              后，该目标服务的隐私规则将适用于副本。请只发送给你信任的对象，并妥善保护导出的文件。
+            </p>
+          </section>
+
+          <section id="deletion">
+            <h2>5. 保留和删除</h2>
+            <p>
+              你可以在 App 内删除单笔记录、符合条件的原始证据内容，或使用“删除全部数据”清除数据库、票据、偏好和本地诊断。
+            </p>
+            <p>
+              删除全部 App 数据不会自动删除你此前导出的文件，也无法删除系统快捷指令自动化或系统权限选择。卸载 App
+              通常会移除其本地容器；如需更明确的控制，请先在 App 内执行删除。
+            </p>
+          </section>
+
+          <section id="website">
+            <h2>6. 官网隐私</h2>
+            <p>
+              本官网是静态页面，不使用账号、广告、分析脚本、营销像素或 Cookie。托管服务商可能为安全与稳定性保存标准访问日志；其处理方式由实际部署时所选服务商的政策决定。
+            </p>
+            <p>如果未来加入统计、表单、订阅、客服系统或第三方嵌入内容，我们会在启用前更新本政策。</p>
+          </section>
+
+          <section>
+            <h2>7. 儿童隐私</h2>
+            <p>
+              Wallet Butler 面向管理个人消费的用户，并非专门面向儿童。由于当前版本不设账号且不向开发者服务器上传业务数据，我们不会通过 App
+              主动收集儿童个人信息。
+            </p>
+          </section>
+
+          <section id="changes">
+            <h2>8. 政策变更</h2>
+            <p>
+              当产品增加云同步、遥测、第三方 SDK、账号或其他会改变数据流的能力时，我们会更新本政策、生效日期和 App
+              内说明。重大变化会在合理位置提示。
+            </p>
+          </section>
+
+          <section id="contact">
+            <h2>9. 联系我们</h2>
+            <p>
+              如果你对本隐私政策、数据处理方式或删除权利有任何问题，请发送邮件至
+              <a href="mailto:kampui4app@163.com">kampui4app@163.com</a>。
+              我们建议你不要在邮件中附上完整通知正文、账单、票据、卡号或其他敏感交易资料。
+            </p>
+            <p><a href="support.html">前往支持中心</a></p>
+          </section>
+        </article>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="section-shell footer-bottom">
+        <span>© <span data-current-year>2026</span> Wallet Butler</span>
+        <span><a href="mailto:kampui4app@163.com">kampui4app@163.com</a> · <a href="terms.html">使用条款</a> · <a href="support.html">支持</a></span>
+      </div>
+    </footer>
+  </body>
+</html>
